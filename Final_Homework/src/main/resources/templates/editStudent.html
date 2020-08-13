@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Edit Student</title>
+</head>
+<body>
+	<h1>Edit Student</h1>
+	<a th:href="@{/login}">Logout</a>
+	<br>
+	<form th:action="@{/admin/editStudent}" th:object="${studentForm}"
+		method="POST">
+		<label for="name"> Full Name 
+		<input type="text" id="name" th:field="*{fullName}" />
+		</label> 
+		<br> 
+			<label for="sex"> Sex 
+			 <select th:field="*{sex}">
+	    			<option th:value="'Male'" th:text="Male"></option>
+	   				<option th:value="'Female'" th:text="Female"></option>
+			</select>
+		</label> 
+		<br> 
+		<label for="birthday"> Birthday 
+		<input type="date" id="birthday" th:field="*{birthday}" />
+		</label> 
+		<br> 
+		<label for="classId"> Class Name 
+			<select th:field="*{classId}">
+				<option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.className}"></option>
+			</select>
+		</label>
+		<br> 
+		<input type="hidden" id="id" th:name="id" th:value=${studentId} />
+		<input type="submit" value="Save"> 
+	</form>
+	<br>
+	<div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
+
+</body>
+</html>

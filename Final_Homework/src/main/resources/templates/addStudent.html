@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Add New Student</title>
+</head>
+<body>
+
+	<h1>Add New Student</h1>
+	<a th:href="@{/login}">Logout</a>
+	<br>
+	<form th:action="@{/admin/addStudent}" th:object="${studentForm}"
+		method="POST">
+		<label for="name"> Full Name 
+		<input type="text" id="name" th:field="*{fullName}" />
+		</label> 
+		<br> 
+			<label for="sex"> Sex 
+			 <select th:field="*{sex}">
+	    			<option th:value="'Male'" th:text="Male"></option>
+	   				<option th:value="'Female'" th:text="Female"></option>
+			</select>
+		</label> 
+		<br> 
+		<label for="birthday"> Birthday 
+		<input type="date" id="birthday" th:field="*{birthday}" />
+		</label> 
+		<br> 
+		<label for="classId"> Class ID 
+			<select th:field="*{classId}">
+				<option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.className}"></option>
+			</select>
+		</label>
+		<br> 
+		<input type="submit" value="Create">
+	</form>
+
+</body>
+</html>
