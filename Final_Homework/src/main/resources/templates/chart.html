@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Chart</title>
+</head>
+<body>
+
+	<h1>Admin Manager</h1>
+	<br>
+	<a th:href="@{/login}">Logout</a>
+	<br>
+	<label for="birthday">Subject:</label>
+	<br>
+	<select name="sex" id="sex">
+		<option selected="selected" value="0">-</option>
+		<option value="1">Math</option>
+		<option value="2">Literature</option>
+		<option value="3">English</option>
+		<option value="4">History</option>
+	</select>
+	<br>
+	<label for="birthday">Class:</label>
+	<br>
+	<select name="sex" id="sex">
+		<option value="0">-</option>
+		<option value="1">10A1</option>
+		<option value="2">10A2</option>
+		<option value="3">11A1</option>
+		<option value="4">11A2</option>
+		<option value="5">12A1</option>
+		<option value="6">12A2</option>
+	</select>
+	<input type="button" value="Submit" onclick="load_chart()" />
+	<br>
+
+	<section class="content">
+		<!-- BAR CHART -->
+		<div class="card card-success">
+			<div class="card-header">
+				<h3 class="card-title">Pay Fee</h3>
+
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool"
+						data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+					<button type="button" class="btn btn-tool"
+						data-card-widget="remove">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="chart">
+					<canvas id="barChart"
+						style="min-height: 500px; height: 500px; max-height: 750px; max-width: 100%;"></canvas>
+				</div>
+			</div>
+			<!-- /.card-body -->
+		</div>
+		<!-- /.card -->
+
+	</section>
+
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="/assets/plugins/chart.js/Chart.min.js"></script>
+	<script type="text/javascript">
+		function load_chart() {
+
+			$.ajax({
+				type : "GET",
+				contentType : "application/json",
+				url : "/admin/load_chart",
+				data : {
+					test : "hai"
+				},
+				dataType : 'json',
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+					console.log(data);
+					draw_chart(data);
+				},
+				error : function(e) {
+					alert('error');
+
+					/*var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
+							+ e.responseText + "&lt;/pre&gt;";
+					$('#feedback').html(json);
+
+					console.log("ERROR : ", e);
+					$("#btn-search").prop("disabled", false); */
+
+				}
+			});
+
+		}
+
+		function draw_chart(areaChartData) {
+
+			var areaChartOptions = {
+				maintainAspectRatio : false,
+				responsive : true,
+				datasetFill : false,
+				legend : {
+					display : true
+				},
+				scales : {
+					xAxes : [ {
+						gridLines : {
+							display : true,
+						}
+					} ],
+					yAxes : [ {
+						gridLines : {
+							display : true,
+						},
+						ticks : {
+							min : 0, //minimum tick
+						//max: 50, //maximum tick
+						}
+					} ]
+				}
+			}
+
+			//-------------
+			//- BAR CHART -
+			//-------------
+			var barChartCanvas = $('#barChart').get(0).getContext('2d')
+			var barChartData = jQuery.extend(true, {}, areaChartData)
+			var temp0 = areaChartData.datasets[0]
+			barChartData.datasets[0] = temp0
+
+			var barChart = new Chart(barChartCanvas, {
+				type : 'bar',
+				data : barChartData,
+				options : areaChartOptions
+			})
+
+		}
+	</script>
+</body>
+</html>
