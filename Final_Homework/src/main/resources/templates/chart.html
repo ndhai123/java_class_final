@@ -11,7 +11,7 @@
 	<br>
 	<label for="birthday">Subject:</label>
 	<br>
-	<select name="sex" id="sex">
+	<select name="subject" id="subject">
 		<option selected="selected" value="0">-</option>
 		<option value="1">Math</option>
 		<option value="2">Literature</option>
@@ -21,7 +21,7 @@
 	<br>
 	<label for="birthday">Class:</label>
 	<br>
-	<select name="sex" id="sex">
+	<select name="class" id="class">
 		<option value="0">-</option>
 		<option value="1">10A1</option>
 		<option value="2">10A2</option>
@@ -67,22 +67,30 @@
 	<script src="/assets/plugins/chart.js/Chart.min.js"></script>
 	<script type="text/javascript">
 		function load_chart() {
-
+			//Gia tri subject va class duoc chon
+			var cSubject = $('#subject').val();
+			var cClass = $('#class').val();
+			
 			$.ajax({
 				type : "GET",
 				contentType : "application/json",
+				//function tren controller, gui len controller nao
 				url : "/admin/load_chart",
+				//Data gui len Controller, gui data gi
 				data : {
-					test : "hai"
+					cSubject : cSubject,
+					cClass   : cClass
 				},
 				dataType : 'json',
 				cache : false,
 				timeout : 600000,
 				success : function(data) {
+					//nhan ket qua tra ve tu controller khi ajax chay ok
 					console.log(data);
 					draw_chart(data);
 				},
 				error : function(e) {
+					// action khi ajax bi loi
 					alert('error');
 
 					/*var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
@@ -96,7 +104,8 @@
 			});
 
 		}
-
+		
+		//Tuong tu nhu trong file chartjs.html
 		function draw_chart(areaChartData) {
 
 			var areaChartOptions = {

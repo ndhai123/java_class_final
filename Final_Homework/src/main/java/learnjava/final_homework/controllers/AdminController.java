@@ -29,7 +29,6 @@ import learnjava.final_homework.service.ClassService;
 import learnjava.final_homework.service.StudentService;
 
 class ChartItemObject {
-
 	String label = "Student Quantity";
 	String backgroundColor = "rgba(60,141,188,0.9)";
 	String borderColor = "rgba(60,141,188,0.8)";
@@ -43,10 +42,10 @@ class ChartItemObject {
 	String pointHighlightFill = "#fff";
 	String pointHighlightStroke = "rgba(60,141,188,1)";
 	//
-	//so luong hoc sinh tuong duong voi tung diem so tu 0-10
-	//query tu DB
+	// so luong hoc sinh tuong duong voi tung diem so tu 0-10
+	// query tu DB
 	//
-	String[] data = {"1", "5", "0", "12" , "7", "5", "8", "7", "11", "4", "11"};
+	String[] data = { "1", "5", "0", "12", "7", "5", "8", "7", "11", "4", "11" };
 
 }
 
@@ -158,19 +157,34 @@ public class AdminController {
 
 	@RequestMapping(value = { "/load_chart" }, method = RequestMethod.GET)
 	public @ResponseBody String getChartValue(HttpServletRequest request) throws JsonProcessingException {
-		System.out.println("here");
-		System.out.println(request.getParameter("test"));
+
+		// Get gia tri duoc gui tu ajax
+		String cSubject = request.getParameter("cSubject");
+		String cClass = request.getParameter("cClass");
+		
+		System.out.println(cSubject);
+		System.out.println(cClass);
+		
+		//
+		/*lay duoc gia tri cua subject va class
+		 * sau do query data tuong ung tu DB
+		 * SELECT count(score.id) from score, student where score.subject_id = 1 and student.class_id = 1 and score.student_id = student.id 
+		 */
+		//
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
 		//
-		//label diem so tu 1-10
+		// label diem so tu 1-10
 		//
-		String[] labels = {"0", "1", "2", "3" , "4", "5", "6", "7", "8", "9", "10"};
+		String[] labels = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
+		//Tao cau truc tuong duong voi cau truc ma chart js su dung
+		//Refer chartjs.html line 895
+		//
 		ChartItemObject datasetsItem = new ChartItemObject();
-		ChartItemObject[] datasets = {datasetsItem};
+		ChartItemObject[] datasets = { datasetsItem };
 
 		ChartAreaObject chartAreaObject = new ChartAreaObject();
 		chartAreaObject.labels = labels;
@@ -178,7 +192,8 @@ public class AdminController {
 
 		String data = mapper.writeValueAsString(chartAreaObject);
 		System.out.println(data);
-
+		
+		//tra gia tri ve cho ajax
 		return data;
 	}
 
