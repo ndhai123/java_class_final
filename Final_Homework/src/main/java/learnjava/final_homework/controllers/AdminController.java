@@ -173,7 +173,7 @@ public class AdminController {
 		//
 
 		ObjectMapper mapper = new ObjectMapper();
-		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
 		//
 		// label diem so tu 1-10

@@ -63,7 +63,7 @@
 									<td th:utext="${student.fullName}">..!..</td>
 									<td th:utext="${student.birthday}">..!..</td>
 									<td th:utext="${student.sex}">..!..</td>
-									<td th:utext="${student.pClass?.className}">..!..</td>
+									<!-- <td th:utext="${student.pClass?.className}">..!..</td> -->
 									<td><a
 										th:href="@{'/admin/deleteStudent?id=' + ${student.id}}">Delete</a></td>
 									<td><a
