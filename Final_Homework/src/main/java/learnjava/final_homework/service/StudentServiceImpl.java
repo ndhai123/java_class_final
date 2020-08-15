@@ -46,5 +46,9 @@ public class StudentServiceImpl implements StudentService{
 		studentRepository.upDateById(id, fullName, sex, birthday, classId);
 	}
 
+	@Override
+	public List<Student> searchByName(String fullName) {
+		return studentRepository.searchByName(fullName);
+	}
 
 }

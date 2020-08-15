@@ -43,6 +43,11 @@
 				<div class="panel-heading">DataTables Advanced Tables</div>
 				<div class="panel-body">
 					<div class="table-responsive">
+						<div class="Seach">
+							<p>Search By Name</p>
+							<input type="text" id="search_condition" /> <br> 
+							<input type="button" Value="Seach" onclick="search()" /> <br>
+						</div>
 						<table class="table table-striped table-bordered table-hover"
 							id="dataTables-student">
 							<thead>
@@ -63,7 +68,7 @@
 									<td th:utext="${student.fullName}">..!..</td>
 									<td th:utext="${student.birthday}">..!..</td>
 									<td th:utext="${student.sex}">..!..</td>
-									<!-- <td th:utext="${student.pClass?.className}">..!..</td> -->
+									<td th:utext="${student.pClass?.className}">..!..</td>
 									<td><a
 										th:href="@{'/admin/deleteStudent?id=' + ${student.id}}">Delete</a></td>
 									<td><a
@@ -82,13 +87,16 @@
 
 
 </body>
-	<script src="/assets/plugins/dataTables/jquery.dataTables.js"></script>
-	<script src="/assets/plugins/dataTables/dataTables.bootstrap.js"></script>
-	<script type="text/javascript">
-	alert(1);
-		$(document).ready(function() {
-			$('#dataTables-student').dataTable();
-			alert(2);
-		});
-	</script>
+<script src="/assets/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+	$('#dataTables-student').dataTable();
+
+	function search() {
+		var nameSearch = $('#search_condition').val();
+		window.location.href = "/admin/search?condition="+nameSearch;
+
+
+	}
+</script>
 </html>

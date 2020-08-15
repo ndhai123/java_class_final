@@ -1,6 +1,7 @@
 package learnjava.final_homework.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -17,5 +18,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Transactional // Khi thao tac vs list
 	@Query("UPDATE Student s SET s.fullName =:fullName,  s.sex =:sex, s.birthday =:birthday,s.classId =:classId WHERE s.id =:id")
 	public void upDateById(@Param("id") Long id, @Param("fullName") String fullName, @Param("sex") String sex,  @Param("birthday") Date birthday, @Param("classId")Long classId);
+	@Query("SELECT s FROM Student s WHERE s.fullName LIKE CONCAT('%',:fullName,'%')")
+	public List<Student> searchByName(@Param("fullName") String fullName);
 }
 

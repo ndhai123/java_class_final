@@ -161,14 +161,15 @@ public class AdminController {
 		// Get gia tri duoc gui tu ajax
 		String cSubject = request.getParameter("cSubject");
 		String cClass = request.getParameter("cClass");
-		
+
 		System.out.println(cSubject);
 		System.out.println(cClass);
-		
+
 		//
-		/*lay duoc gia tri cua subject va class
-		 * sau do query data tuong ung tu DB
-		 * SELECT count(score.id) from score, student where score.subject_id = 1 and student.class_id = 1 and score.student_id = student.id 
+		/*
+		 * lay duoc gia tri cua subject va class sau do query data tuong ung tu DB
+		 * SELECT count(score.id) from score, student where score.subject_id = 1 and
+		 * student.class_id = 1 and score.student_id = student.id
 		 */
 		//
 
@@ -180,8 +181,8 @@ public class AdminController {
 		//
 		String[] labels = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
-		//Tao cau truc tuong duong voi cau truc ma chart js su dung
-		//Refer chartjs.html line 895
+		// Tao cau truc tuong duong voi cau truc ma chart js su dung
+		// Refer chartjs.html line 895
 		//
 		ChartItemObject datasetsItem = new ChartItemObject();
 		ChartItemObject[] datasets = { datasetsItem };
@@ -192,9 +193,18 @@ public class AdminController {
 
 		String data = mapper.writeValueAsString(chartAreaObject);
 		System.out.println(data);
-		
-		//tra gia tri ve cho ajax
+
+		// tra gia tri ve cho ajax
 		return data;
+	}
+
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public String searchByName(Model model, @RequestParam(name = "condition") String condition) {
+		System.out.println("search");
+
+		List<Student> list = studentService.searchByName(condition);
+		model.addAttribute("students", list);
+		return "studentList";
 	}
 
 }
