@@ -24,7 +24,7 @@ public class Class{
 	@Column(name = "class_name")
 	private String className;
 	
-	@OneToMany(targetEntity=Student.class, mappedBy="classId",cascade=CascadeType.ALL, fetch = FetchType.LAZY)    
+	@OneToMany(mappedBy="pClass")    
 	private List<Student> student;
 
 	public long getId() {

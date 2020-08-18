@@ -25,8 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import learnjava.final_homework.form.StudentForm;
 import learnjava.final_homework.model.Class;
+import learnjava.final_homework.model.Score;
 import learnjava.final_homework.model.Student;
 import learnjava.final_homework.service.ClassService;
+import learnjava.final_homework.service.ScoreService;
 import learnjava.final_homework.service.StudentService;
 
 class ChartItemObject {
@@ -63,6 +65,9 @@ public class AdminController {
 	private StudentService studentService;
 	@Autowired
 	private ClassService classService;
+
+	@Autowired
+	private ScoreService scoreService;
 
 	@RequestMapping(value = { "" }, method = RequestMethod.GET)
 	public String showAdmin(Model model) {
@@ -160,8 +165,8 @@ public class AdminController {
 	public @ResponseBody String getChartValue(HttpServletRequest request) throws JsonProcessingException {
 
 		// Get gia tri duoc gui tu ajax
-		String cSubject = request.getParameter("cSubject");
-		String cClass = request.getParameter("cClass");
+		Long cSubject = Long.parseLong(request.getParameter("cSubject"));
+		Long cClass = Long.parseLong(request.getParameter("cClass"));
 
 		System.out.println(cSubject);
 		System.out.println(cClass);
@@ -182,21 +187,37 @@ public class AdminController {
 		//
 		String[] labels = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
+		//query so luong studen  tuong ung voi tung khoang diem so
+		String data[] = new String[11];
+
+		data[0] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, -1, 0.5).size());
+		data[1] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 0.5, 1.5).size());
+		data[2] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 1.5, 2.5).size());
+		data[3] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 2.5, 3.5).size());
+		data[4] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 3.5, 4.5).size());
+		data[5] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 4.5, 5.5).size());
+		data[6] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 5.5, 6.5).size());
+		data[7] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 6.5, 7.5).size());
+		data[8] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 7.5, 8.5).size());
+		data[9] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 8.5, 9.5).size());
+		data[10] = String.valueOf(scoreService.getListScoreByClassAndSubjet(cClass, cSubject, 9.5, 10).size());
+
 		// Tao cau truc tuong duong voi cau truc ma chart js su dung
 		// Refer chartjs.html line 895
 		//
 		ChartItemObject datasetsItem = new ChartItemObject();
+		datasetsItem.data = data;
 		ChartItemObject[] datasets = { datasetsItem };
 
 		ChartAreaObject chartAreaObject = new ChartAreaObject();
 		chartAreaObject.labels = labels;
 		chartAreaObject.datasets = datasets;
 
-		String data = mapper.writeValueAsString(chartAreaObject);
-		System.out.println(data);
+		String sendBackData = mapper.writeValueAsString(chartAreaObject);
+		System.out.println(sendBackData);
 
 		// tra gia tri ve cho ajax
-		return data;
+		return sendBackData;
 	}
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)

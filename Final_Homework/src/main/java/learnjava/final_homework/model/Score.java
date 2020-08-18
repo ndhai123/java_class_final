@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,7 +24,15 @@ public class Score {
 	private long subjectId;
 
 	@Column(name = "score")
-	private long score;
+	private double score;
+	
+    @ManyToOne
+    @JoinColumn(name = "student_id", insertable = false, updatable = false, nullable = true)
+    private Student student;
+    
+    @ManyToOne
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false, nullable = true)
+    private Subject subject;
 
 	public long getId() {
 		return id;
@@ -48,11 +58,11 @@ public class Score {
 		this.subjectId = subjectId;
 	}
 
-	public long getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(long score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
